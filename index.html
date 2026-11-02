@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f7faf7">
+<meta name="description" content="私人凯格尔运动跟练与打卡工具，视频和记录保存在本机浏览器。">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>轻练 · 75天训练计划</title>
+<style>
+:root{--bg:#f6f8f5;--surface:#fff;--surface2:#f0f5ef;--text:#1e2b23;--muted:#78847b;--line:#e7ede6;--green:#27865b;--greenDark:#176b45;--greenSoft:#e4f3e9;--shadow:0 10px 30px rgba(30,65,43,.07);--radius:22px}
+*{box-sizing:border-box}html{background:var(--bg);scroll-behavior:smooth}
+body{margin:0;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);min-height:100vh;padding-bottom:calc(88px + env(safe-area-inset-bottom))}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid rgba(39,134,91,.22);outline-offset:2px}
+.app-shell{max-width:720px;margin:0 auto;min-height:100vh}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:20px 20px 12px;position:sticky;top:0;background:rgba(246,248,245,.92);backdrop-filter:blur(14px);z-index:5}
+.brand{display:flex;align-items:center;gap:10px}.brand-mark{width:38px;height:38px;border-radius:14px;background:var(--green);display:grid;place-items:center;color:white;font-size:19px;box-shadow:0 6px 14px rgba(39,134,91,.22)}
+.brand-name{font-size:16px;font-weight:800;letter-spacing:.2px}.brand-sub{font-size:10px;color:var(--muted);margin-top:2px;letter-spacing:1.4px}.top-date{font-size:12px;color:var(--muted);text-align:right}
+.main{padding:8px 18px 24px}.page{animation:fade .18s ease}@keyframes fade{from{opacity:.65;transform:translateY(4px)}to{opacity:1;transform:none}}
+.eyebrow{font-size:11px;letter-spacing:1.5px;color:var(--green);font-weight:800;text-transform:uppercase}
+h1{font-size:27px;line-height:1.25;margin:7px 0 5px;letter-spacing:-.6px}h2{font-size:18px;margin:0;font-weight:800}h3{font-size:15px;margin:0;font-weight:750}
+p{line-height:1.65}.muted{color:var(--muted)}.small{font-size:12px}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin:24px 2px 12px}
+.card{background:var(--surface);border:1px solid rgba(224,234,224,.85);border-radius:var(--radius);box-shadow:var(--shadow)}
+.hero{padding:22px;background:linear-gradient(135deg,#edf7ef 0%,#f8fbf7 62%,#e4f3e9 100%);border:1px solid #e1eee3;border-radius:26px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;right:-72px;top:-80px;background:rgba(39,134,91,.07)}
+.hero-content{position:relative;z-index:1}.hero h1{max-width:340px}.hero-copy{font-size:13px;color:#66776b;margin:8px 0 18px;max-width:320px}
+.hero-row{display:flex;align-items:center;gap:16px}
+.primary-btn,.secondary-btn,.ghost-btn,.danger-btn{border:0;border-radius:14px;padding:12px 16px;font-size:13px;font-weight:750;transition:.15s ease}
+.primary-btn{background:var(--green);color:#fff;box-shadow:0 6px 14px rgba(39,134,91,.18)}.primary-btn:active{transform:scale(.98);background:var(--greenDark)}
+.secondary-btn{background:var(--greenSoft);color:var(--greenDark)}.ghost-btn{background:#f4f7f3;color:#506056;border:1px solid var(--line)}.danger-btn{background:#fff1ee;color:#b44c3c}
+.btn-sm{padding:9px 12px;border-radius:12px;font-size:12px}
+.progress-ring{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;flex:none;background:conic-gradient(var(--green) var(--progress,0%),#dce9dd 0);position:relative}
+.progress-ring:before{content:"";position:absolute;inset:7px;border-radius:50%;background:#f3f8f2}.progress-ring-inner{position:relative;text-align:center}
+.progress-ring strong{font-size:20px;display:block;line-height:1.1}.progress-ring span{font-size:9px;color:var(--muted)}
+.metric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.metric{padding:15px 13px;border-radius:18px;background:#fff;border:1px solid var(--line)}.metric-value{font-size:22px;font-weight:850;letter-spacing:-.5px}.metric-label{font-size:11px;color:var(--muted);margin-top:4px}
+.video-list{display:grid;gap:10px}.video-card{display:flex;align-items:center;gap:13px;padding:13px;border-radius:18px;background:#fff;border:1px solid var(--line)}
+.video-thumb{width:58px;height:58px;border-radius:16px;background:linear-gradient(145deg,#e3f2e6,#f5f8f2);display:grid;place-items:center;color:var(--green);font-size:22px;flex:none}
+.video-info{min-width:0;flex:1}.video-title{font-weight:800;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.video-meta{font-size:11px;color:var(--muted);margin-top:6px}
+.video-actions{display:flex;align-items:center;gap:7px}.icon-btn{border:0;background:#f2f6f1;color:var(--greenDark);border-radius:12px;width:38px;height:38px;display:grid;place-items:center;font-size:15px}
+.empty{padding:28px 20px;text-align:center;border:1px dashed #cdddcf;border-radius:20px;background:rgba(255,255,255,.65)}
+.empty-icon{width:54px;height:54px;margin:0 auto 12px;border-radius:18px;background:var(--greenSoft);display:grid;place-items:center;color:var(--green);font-size:23px}
+.empty p{font-size:12px;color:var(--muted);margin:7px auto 16px;max-width:260px}
+.page-intro{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin:8px 2px 20px}.page-intro h1{font-size:25px}
+.pill{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:5px 9px;background:var(--greenSoft);color:var(--greenDark);font-size:10px;font-weight:750}
+.calendar-card{padding:17px}.calendar-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}.month-label{font-weight:850;font-size:16px}
+.month-actions{display:flex;gap:7px}.month-actions button{width:32px;height:32px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--text)}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center}.weekday{font-size:10px;color:var(--muted);padding:7px 0}
+.day{min-height:43px;border:0;background:transparent;border-radius:12px;position:relative;color:var(--text);font-size:12px}
+.day.other{color:#c2cbc3}.day.today{background:#f0f6f0;font-weight:850}.day.selected{background:var(--green);color:#fff;font-weight:850}
+.day .dot{width:5px;height:5px;border-radius:50%;background:var(--green);position:absolute;bottom:5px;left:50%;transform:translateX(-50%)}.day.selected .dot{background:#fff}
+.day-detail{padding:17px;margin-top:13px}.detail-date{font-weight:800;font-size:14px;margin-bottom:12px}
+.detail-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-top:1px solid var(--line);font-size:12px}
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.stat-card{padding:17px}.stat-number{font-size:27px;font-weight:850;margin-top:7px}.stat-caption{font-size:11px;color:var(--muted);margin-top:3px}
+.goal-card{padding:18px;margin-top:14px}.goal-line{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:750}.bar{height:8px;background:#eaf0e9;border-radius:99px;overflow:hidden;margin-top:12px}.bar-fill{height:100%;background:var(--green);border-radius:99px}
+.setting-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}.setting-row:last-child{border-bottom:0}
+.setting-row select{border:1px solid var(--line);background:#fff;border-radius:11px;padding:9px 12px;color:var(--text)}
+.notice{font-size:11px;line-height:1.6;color:var(--muted);background:#f5f8f4;border-radius:14px;padding:12px;margin-top:14px}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:10;background:rgba(255,255,255,.94);backdrop-filter:blur(16px);border-top:1px solid var(--line);padding:8px 12px calc(8px + env(safe-area-inset-bottom));display:flex;justify-content:center}
+.nav-inner{width:100%;max-width:600px;display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.nav-item{border:0;background:transparent;color:#8a968d;padding:7px 4px 5px;border-radius:14px;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;font-weight:650}
+.nav-item .nav-icon{font-size:19px;line-height:1.1}.nav-item.active{color:var(--green);background:#eff7f0}
+.modal-backdrop{position:fixed;inset:0;background:rgba(17,32,22,.48);z-index:30;display:flex;align-items:flex-end;justify-content:center;padding:12px}
+.modal{width:100%;max-width:600px;max-height:92vh;overflow:auto;background:#fff;border-radius:25px;padding:20px;box-shadow:0 20px 70px rgba(0,0,0,.2);animation:rise .18s ease}
+@keyframes rise{from{transform:translateY(15px);opacity:.6}to{transform:none;opacity:1}}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:17px}.close-btn{border:0;background:#f1f5f0;border-radius:11px;width:34px;height:34px;font-size:19px;color:#607064}
+.field{margin:13px 0}.field label{display:block;font-size:12px;font-weight:750;margin-bottom:7px}.field input,.field select,.field textarea{width:100%;border:1px solid #dfe8df;border-radius:13px;padding:12px;background:#fbfdfb;color:var(--text);font-size:13px}.field textarea{min-height:70px;resize:vertical}
+.field input[type=file]{padding:10px;background:#f7faf6}.field-hint{font-size:10px;color:var(--muted);margin-top:6px;line-height:1.5}
+.form-actions{display:flex;gap:9px;margin-top:18px}.form-actions button{flex:1}
+.player{width:100%;max-height:48vh;background:#101510;border-radius:16px;display:block;margin-bottom:14px}
+.toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translate(-50%,12px);background:#21372a;color:white;padding:11px 16px;border-radius:99px;font-size:12px;z-index:50;opacity:0;pointer-events:none;transition:.2s;white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.subtle-divider{height:1px;background:var(--line);margin:14px 0}
+@media(min-width:650px){.main{padding-left:28px;padding-right:28px}.topbar{padding-left:30px;padding-right:30px}.modal-backdrop{align-items:center}.modal{border-radius:25px}}
+@media(max-width:380px){.main{padding-left:13px;padding-right:13px}.hero{padding:18px}.hero h1{font-size:24px}.metric{padding:12px 9px}.metric-value{font-size:19px}.video-card{gap:9px;padding:10px}.video-thumb{width:49px;height:49px}}
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <header class="topbar">
+    <div class="brand"><div class="brand-mark">✳</div><div><div class="brand-name">轻练</div><div class="brand-sub">YOUR PRIVATE TRAINING</div></div></div>
+    <div class="top-date" id="topDate"></div>
+  </header>
+  <main class="main" id="app"></main>
+</div>
+<nav class="bottom-nav" aria-label="主导航"><div class="nav-inner" id="nav"></div></nav>
+<div id="modalRoot"></div><div class="toast" id="toast" role="status"></div>
+<script>
+
+const DB_NAME="qinglian-kegel-v1", DB_VERSION=1;
+let db, state={page:"today",videos:[],workouts:[],settings:{weeklyGoal:4},month:new Date(),selectedDate:dateKey(new Date()),modal:null,activeVideo:null,objectUrl:null};
+const $=s=>document.querySelector(s);
+function openDB(){return new Promise((resolve,reject)=>{const r=indexedDB.open(DB_NAME,DB_VERSION);r.onupgradeneeded=()=>{const d=r.result;if(!d.objectStoreNames.contains("videos"))d.createObjectStore("videos",{keyPath:"id"});if(!d.objectStoreNames.contains("workouts"))d.createObjectStore("workouts",{keyPath:"id"});if(!d.objectStoreNames.contains("settings"))d.createObjectStore("settings",{keyPath:"key"});};r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);});}
+function request(req){return new Promise((resolve,reject)=>{req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});}
+function all(store){return request(db.transaction(store,"readonly").objectStore(store).getAll());}
+function get(store,key){return request(db.transaction(store,"readonly").objectStore(store).get(key));}
+function put(store,value){return request(db.transaction(store,"readwrite").objectStore(store).put(value));}
+function del(store,key){return request(db.transaction(store,"readwrite").objectStore(store).delete(key));}
+function clearStore(store){return request(db.transaction(store,"readwrite").objectStore(store).clear());}
+function makeId(){return (crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2));}
+function dateKey(d){const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");return `${y}-${m}-${day}`;}
+function dateFromKey(k){const [y,m,d]=k.split("-").map(Number);return new Date(y,m-1,d);}
+function escapeHTML(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function fmtDate(d,opts={month:"long",day:"numeric",weekday:"short"}){return new Intl.DateTimeFormat("zh-CN",opts).format(d);}
+function mins(n){if(!n||n<1)return "时长未设置";const h=Math.floor(n/60),m=Math.round(n%60);return h?`${h}小时${m?m+"分钟":""}`:`${m}分钟`;}
+function levelName(x){return x||"未分类";}
+function showToast(msg){const el=$("#toast");el.textContent=msg;el.classList.add("show");clearTimeout(showToast.t);showToast.t=setTimeout(()=>el.classList.remove("show"),2300);}
+async function loadData(){state.videos=(await all("videos")).sort((a,b)=>b.createdAt-a.createdAt);state.workouts=(await all("workouts")).sort((a,b)=>b.completedAt-a.completedAt);const s=await get("settings","settings");if(s?.value)state.settings={...state.settings,...s.value};}
+function workoutsOn(key){return state.workouts.filter(w=>w.date===key);}
+function currentStreak(){const days=new Set(state.workouts.map(w=>w.date));let cursor=new Date();if(!days.has(dateKey(cursor)))cursor.setDate(cursor.getDate()-1);let n=0;while(days.has(dateKey(cursor))){n++;cursor.setDate(cursor.getDate()-1);}return n;}
+function weekStart(d=new Date()){const x=new Date(d.getFullYear(),d.getMonth(),d.getDate());x.setDate(x.getDate()-((x.getDay()+6)%7));return x;}
+function weeklyWorkouts(){const start=weekStart(),end=new Date(start);end.setDate(end.getDate()+7);return state.workouts.filter(w=>{const d=dateFromKey(w.date);return d>=start&&d<end;});}
+function videoCard(v,withDelete=false){return `<div class="video-card"><div class="video-thumb">▶</div><div class="video-info"><div class="video-title">${escapeHTML(v.title)}</div><div class="video-meta">${escapeHTML(levelName(v.level))} · ${mins(v.durationMin)}</div></div><div class="video-actions"><button class="icon-btn" data-action="play" data-id="${v.id}" aria-label="播放">▶</button>${withDelete?`<button class="icon-btn" data-action="delete-video" data-id="${v.id}" aria-label="删除" title="删除视频">⌫</button>`:""}</div></div>`;}
+// 75-day course: three ungraded stages and two A–E graded stages.
+const COURSE=(()=>{const days=[];for(let difficulty=1;difficulty<=5;difficulty++){
+  if(difficulty<=3){for(let d=1;d<=15;d++)days.push({difficulty,grade:null,gradeDay:d,gradeDays:15,key:`D${difficulty}`,sessions:3});}
+  else{for(const [i,grade] of ["A","B","C","D","E"].entries()){
+    for(let d=1;d<=i+1;d++)days.push({difficulty,grade,gradeDay:d,gradeDays:i+1,key:`D${difficulty}${grade}`,sessions:difficulty===5?2:3});
+  }}
+}return days;})();
+const COURSE_LABEL=d=>`难度 ${d.difficulty}${d.grade?" · "+d.grade+"级":""}`;
+const COURSE_OPTIONS=[1,2,3].map(i=>({key:`D${i}`,title:`难度 ${i}`})).concat([4,5].flatMap(i=>["A","B","C","D","E"].map(g=>({key:`D${i}${g}`,title:`难度 ${i} · ${g}级`}))));
+function videoCourseKey(v){if(v.courseKey)return v.courseKey;const m={"难度一":"D1","难度二":"D2","难度三":"D3"};return m[v.level]||null;}
+// Past V1 recordings remain visible but do not silently advance the new course.
+function programProgress(){
+ let day=0,lastCompletedDate=null;
+ while(day<COURSE.length){const recs=state.workouts.filter(w=>w.programVersion===1&&w.programDay===day+1).sort((a,b)=>a.completedAt-b.completedAt);
+  if(recs.length<COURSE[day].sessions)break;
+  lastCompletedDate=recs[COURSE[day].sessions-1].date;day++;
+ }
+ const current=COURSE[day]||null;
+ const sessions=current?state.workouts.filter(w=>w.programVersion===1&&w.programDay===day+1).length:0;
+ const wait=Boolean(current&&day>0&&lastCompletedDate>=dateKey(new Date()));
+ return {day,completed:day, current,sessions,wait,finished:!current,lastCompletedDate};
+}
+function nextVideoForCurrent(){const p=programProgress();return p.current?state.videos.find(v=>videoCourseKey(v)===p.current.key):null;}
+const navItems=[["today","⌂","今日"],["library","▤","视频库"],["calendar","▦","日历"],["stats","◷","我的"]];
+function render(){ $("#topDate").textContent=fmtDate(new Date(),{month:"long",day:"numeric",weekday:"long"});$("#nav").innerHTML=navItems.map(([id,icon,label])=>`<button class="nav-item ${state.page===id?"active":""}" data-action="nav" data-page="${id}"><span class="nav-icon">${icon}</span><span>${label}</span></button>`).join("");const pages={today:renderToday,library:renderLibrary,calendar:renderCalendar,stats:renderStats};$("#app").innerHTML=pages[state.page]();renderModal();}
+function renderToday(){
+ const p=programProgress(),today=dateKey(new Date()),todayWs=workoutsOn(today),week=weeklyWorkouts(),streak=currentStreak(),minsToday=todayWs.reduce((sum,w)=>sum+(w.minutes||0),0),v=nextVideoForCurrent();
+ const ring=p.finished?100:p.current?Math.round(p.sessions/p.current.sessions*100):0;
+ const status=p.finished?"75天课程已完成。":p.wait?"今天已完成规定训练，下一训练日明天解锁。":`第 ${p.day+1} / 75 天 · ${COURSE_LABEL(p.current)} · ${p.current.gradeDay}/${p.current.gradeDays} 天`;
+ const action=p.finished?"nav":p.wait?"nav":v?"play":"add";
+ const btn=p.finished?"查看训练报告":p.wait?"查看进度":v?"开始今日跟练":"上传本阶段视频";
+ return `<section class="page"><div class="hero"><div class="hero-content"><div class="eyebrow">YOUR 75-DAY PRACTICE</div><h1>${p.finished?"所有课程已完成 ♡":"循序渐进，轻松练习。"}</h1><p class="hero-copy">${status}</p><div class="hero-row"><button class="primary-btn" data-action="${action}" ${action==="play"?`data-id="${v.id}"`:action==="nav"?'data-page="stats"':''}>${btn}　→</button><div class="progress-ring" style="--progress:${ring}%"><div class="progress-ring-inner"><strong>${p.finished?"✓":p.sessions+"/"+p.current.sessions}</strong><span>今日次数</span></div></div></div></div></div>
+ <div class="card" style="padding:16px;margin-bottom:18px"><div class="goal-line"><strong>课程进度</strong><span>${p.completed} / 75 天</span></div><div class="bar"><div class="bar-fill" style="width:${Math.round(p.completed/75*100)}%"></div></div><div class="muted small" style="margin-top:9px">${p.finished?"完成全部75个训练日。":`每天完成 ${p.current.sessions} 次才计入一个训练日；未完成不会跳级。${p.wait?"请明天继续。":""}`}</div></div>
+ <div class="metric-grid"><div class="metric"><div class="metric-value">${state.workouts.length}</div><div class="metric-label">累计训练次数</div></div><div class="metric"><div class="metric-value">${streak}<small style="font-size:11px"> 天</small></div><div class="metric-label">连续打卡</div></div><div class="metric"><div class="metric-value">${week.length}</div><div class="metric-label">本周训练次数</div></div></div>
+ <div class="section-head"><h2>今天的训练</h2><span class="muted small">${fmtDate(new Date(),{month:"long",day:"numeric"})}</span></div>
+ ${todayWs.length?`<div class="card" style="padding:15px">${todayWs.map(w=>`<div class="detail-row"><span>✓　${escapeHTML(w.title)}</span><span class="muted">${w.programDay?`第${w.programDay}天 · `:""}${mins(w.minutes)}</span></div>`).join("")}<div class="small muted" style="margin-top:9px">今日累计 ${mins(minsToday)}</div></div>`:`<div class="empty"><div class="empty-icon">♡</div><h3>今天还没有训练记录</h3><p>播放相应等级视频，训练完成后手动打卡。</p></div>`}
+ <div class="section-head"><h2>课程视频</h2><button class="ghost-btn btn-sm" data-action="nav" data-page="library">全部视频　→</button></div>
+ ${p.current?(v?`<div class="video-list">${videoCard(v)}</div>`:`<div class="empty"><div class="empty-icon">＋</div><h3>尚无 ${COURSE_LABEL(p.current)} 的视频</h3><p>请上传与本阶段对应的视频，才能记录课程进度。</p><button class="primary-btn btn-sm" data-action="add">上传课程视频</button></div>`):'<div class="notice">已完成全部课程。你仍可查看此前的跟练记录。</div>'}
+ </section>`;
+}
+function renderLibrary(){return `<section class="page"><div class="page-intro"><div><div class="eyebrow">YOUR VIDEO LIBRARY</div><h1>视频库</h1><div class="muted small">把喜欢的跟练视频收进来，随时开始。</div></div><button class="primary-btn btn-sm" data-action="add">＋ 上传</button></div>
+ ${state.videos.length?`<div class="video-list">${state.videos.map(v=>videoCard(v,true)).join("")}</div>`:`<div class="empty"><div class="empty-icon">▤</div><h3>还没有添加视频</h3><p>支持手机或电脑中的视频文件。上传后，视频会保存在当前设备的浏览器里。</p><button class="primary-btn" data-action="add">选择视频文件</button></div>`}
+ <div class="notice">提示：目前视频仅保存在这个浏览器和这台设备中。更换手机或清理浏览器数据前，请先在「我的」页面导出备份。</div></section>`;}
+
+function renderCalendar(){
+ const y=state.month.getFullYear(),m=state.month.getMonth(),first=new Date(y,m,1),offset=(first.getDay()+6)%7,days=new Date(y,m+1,0).getDate(),today=dateKey(new Date());let cells="";
+ for(let i=0;i<offset;i++)cells+="<div></div>";
+ for(let d=1;d<=days;d++){const key=dateKey(new Date(y,m,d)),has=workoutsOn(key).length>0;cells+=`<button class="day ${key===today?"today":""} ${key===state.selectedDate?"selected":""}" data-action="select-date" data-date="${key}">${d}${has?'<i class="dot"></i>':""}</button>`;}
+ const selected=workoutsOn(state.selectedDate),selectedDate=dateFromKey(state.selectedDate);
+ return `<section class="page"><div class="page-intro"><div><div class="eyebrow">YOUR CHECK-IN HISTORY</div><h1>训练日历</h1><div class="muted small">每一个小小的坚持，都值得被记录。</div></div><span class="pill">● 已打卡</span></div>
+ <div class="card calendar-card"><div class="calendar-top"><div class="month-label">${y}年${m+1}月</div><div class="month-actions"><button data-action="month-prev" aria-label="上个月">‹</button><button data-action="month-next" aria-label="下个月">›</button></div></div><div class="calendar-grid">${["一","二","三","四","五","六","日"].map(x=>`<div class="weekday">${x}</div>`).join("")}${cells}</div></div>
+ <div class="card day-detail"><div class="detail-date">${fmtDate(selectedDate,{year:"numeric",month:"long",day:"numeric",weekday:"long"})}</div>
+ ${selected.length?selected.map(w=>`<div class="detail-row"><span>✓　${escapeHTML(w.title)}</span><span class="muted">${mins(w.minutes)}</span></div>`).join(""):`<div class="muted small">${state.selectedDate===today?"今天还没有打卡，完成训练后就会显示在这里。":"这一天没有训练记录。"}</div>`}</div>
+ <div class="notice">日历中的绿色圆点表示当天至少完成过一次训练。点击日期可以查看当天的训练内容。</div></section>`;
+}
+function renderStats(){
+ const week=weeklyWorkouts(),goal=Number(state.settings.weeklyGoal)||4,weekMins=week.reduce((s,w)=>s+(w.minutes||0),0),allMins=state.workouts.reduce((s,w)=>s+(w.minutes||0),0),pct=Math.min(100,Math.round(week.length/goal*100)),monthKey=dateKey(new Date()).slice(0,7),monthCount=state.workouts.filter(w=>w.date.startsWith(monthKey)).length;
+ return `<section class="page"><div class="page-intro"><div><div class="eyebrow">YOUR PROGRESS</div><h1>我的训练</h1><div class="muted small">记录积累，比追求速度更重要。</div></div><span class="pill">本地数据</span></div>
+ <div class="stats-grid"><div class="card stat-card"><div class="muted small">累计训练次数</div><div class="stat-number">${state.workouts.length}</div><div class="stat-caption">次训练记录</div></div><div class="card stat-card"><div class="muted small">累计训练时长</div><div class="stat-number">${Math.round(allMins)}</div><div class="stat-caption">分钟</div></div><div class="card stat-card"><div class="muted small">当前连续打卡</div><div class="stat-number">${currentStreak()}<small style="font-size:13px"> 天</small></div><div class="stat-caption">持续练习的日子</div></div><div class="card stat-card"><div class="muted small">本月完成</div><div class="stat-number">${monthCount}</div><div class="stat-caption">次训练</div></div></div>
+ <div class="card goal-card"><div class="goal-line"><span>本周训练目标</span><span>${week.length} / ${goal} 次</span></div><div class="bar"><div class="bar-fill" style="width:${pct}%"></div></div><div class="muted small" style="margin-top:9px">${pct>=100?"本周目标已完成，做得很好！":`再完成 ${Math.max(0,goal-week.length)} 次训练即可达到本周目标。`} 本周累计 ${Math.round(weekMins)} 分钟。</div></div>
+ <div class="section-head"><h2>75 天课程安排</h2></div>
+ <div class="card" style="padding:15px;margin-bottom:16px"><div class="muted small" style="margin-bottom:8px">难度 1–3：每个难度15天，每天3次；难度 4、5：A/B/C/D/E分别1/2/3/4/5天，难度4每天3次、难度5每天2次。</div>
+ ${[1,2,3,4,5].map(d=>{const prog=programProgress(),low=(d-1)*15,done=Math.max(0,Math.min(15,prog.completed-low));return `<div class="goal-line" style="margin-top:13px"><span>难度 ${d}</span><span>${done}/15 天</span></div><div class="bar"><div class="bar-fill" style="width:${done/15*100}%"></div></div>`;}).join("")}
+ <div class="muted small" style="margin-top:13px">旧版打卡保留为历史记录，不自动算入75天课程；未完成的训练日会保留，下一次继续补齐。一个自然日最多完成一个课程训练日。</div></div>
+ <div class="section-head"><h2>设置与数据</h2></div><div class="card" style="padding:0 16px">
+ <div class="setting-row"><div><h3>每周训练目标</h3><div class="muted small">只作为个人计划，不是强制要求</div></div><select id="weeklyGoal"><option value="2" ${goal===2?"selected":""}>每周 2 次</option><option value="3" ${goal===3?"selected":""}>每周 3 次</option><option value="4" ${goal===4?"selected":""}>每周 4 次</option><option value="5" ${goal===5?"selected":""}>每周 5 次</option><option value="6" ${goal===6?"selected":""}>每周 6 次</option><option value="7" ${goal===7?"selected":""}>每周 7 次</option></select></div>
+ <div class="setting-row"><div><h3>导出数据备份</h3><div class="muted small">包含训练记录和已上传视频</div></div><button class="secondary-btn btn-sm" data-action="export">导出备份</button></div>
+ <div class="setting-row"><div><h3>恢复数据备份</h3><div class="muted small">从之前导出的 JSON 文件恢复</div></div><button class="ghost-btn btn-sm" data-action="import">选择文件</button></div>
+ <div class="setting-row"><div><h3>清空本机数据</h3><div class="muted small">删除视频、打卡记录和设置</div></div><button class="danger-btn btn-sm" data-action="reset">清空</button></div></div>
+ <div class="notice">隐私说明：本版本不设账号、不连接服务器。你上传的视频、训练记录和设置均保存在当前浏览器的本地数据库中。浏览器清理数据、卸载浏览器或更换设备可能导致数据丢失，请定期导出备份。</div></section>`;
+}
+function renderModal(){
+ const root=$("#modalRoot");if(!state.modal){root.innerHTML="";return;}
+ let body="";
+ if(state.modal==="add")body=`<div class="modal-head"><div><div class="eyebrow">ADD A VIDEO</div><h2>上传跟练视频</h2></div><button class="close-btn" data-action="close-modal">×</button></div>
+ <form id="addForm"><div class="field"><label for="videoFile">选择视频文件 *</label><input id="videoFile" name="videoFile" type="file" accept="video/*,.mp4,.mov,.m4v,.webm" required><div class="field-hint">视频保存在当前设备浏览器中。建议先上传一段视频测试。</div></div>
+ <div class="field"><label for="videoTitle">视频名称 *</label><input id="videoTitle" name="videoTitle" maxlength="80" placeholder="例如：难度三 · A级" required></div>
+ <div class="field"><label for="videoLevel">对应训练阶段 *</label><select id="videoLevel" name="videoLevel">${COURSE_OPTIONS.map(x=>`<option value="${x.key}" ${x.key===(programProgress().current?.key||"D1")?"selected":""}>${x.title}</option>`).join("")}</select><div class="field-hint">视频会绑定到指定难度/等级，仅对应阶段的训练可用于课程打卡。</div></div>
+ <div class="field"><label for="videoDuration">预计时长（分钟，可选）</label><input id="videoDuration" name="videoDuration" type="number" min="1" max="600" placeholder="留空则尝试读取视频时长"></div>
+ <div class="field"><label for="videoNotes">备注（可选）</label><textarea id="videoNotes" name="videoNotes" placeholder="例如：第 1 天、放松呼吸、训练后拉伸……"></textarea></div>
+ <div class="form-actions"><button type="button" class="ghost-btn" data-action="close-modal">取消</button><button type="submit" class="primary-btn">保存到视频库</button></div></form>`;
+ else if(state.modal==="play"&&state.activeVideo){const v=state.activeVideo;const p=programProgress(),allowed=!p.finished&&!p.wait&&videoCourseKey(v)===p.current.key;body=`<div class="modal-head"><div><div class="eyebrow">WORKOUT PLAYER</div><h2>${escapeHTML(v.title)}</h2></div><button class="close-btn" data-action="close-modal">×</button></div>
+ <video class="player" id="videoPlayer" controls playsinline webkit-playsinline preload="metadata"></video>
+ <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 13px"><span class="pill">${escapeHTML(levelName(v.level))}</span><span class="muted small">${mins(v.durationMin)}</span></div>
+ ${v.notes?`<p class="muted small">${escapeHTML(v.notes)}</p>`:""}
+ <div class="notice">${allowed?`当前：第 ${p.day+1} 天，已完成 ${p.sessions}/${p.current.sessions} 次。训练后手动确认打卡。`:p.finished?"课程已完成。":p.wait?"今日课程已满额，明天开始下一个训练日。":`本视频不属于当前阶段（${COURSE_LABEL(p.current)}），可观看，但不能记入课程。`}</div>
+ <div class="form-actions"><button class="ghost-btn" data-action="close-modal">稍后再练</button><button class="primary-btn" data-action="complete" data-id="${v.id}" ${allowed?"":"disabled"}>${allowed?"完成训练并打卡 ✓":"本阶段不可打卡"}</button></div>`;}
+ root.innerHTML=`<div class="modal-backdrop" data-action="backdrop"><div class="modal" role="dialog" aria-modal="true">${body}</div></div>`;
+ if(state.modal==="play"&&state.activeVideo){const player=$("#videoPlayer");if(player&&state.objectUrl){player.src=state.objectUrl;player.load();}}
+}
+
+function closeModal(){if(state.objectUrl){URL.revokeObjectURL(state.objectUrl);state.objectUrl=null;}state.activeVideo=null;state.modal=null;renderModal();}
+function openAdd(){state.modal="add";renderModal();}
+async function startVideo(id){const v=state.videos.find(x=>x.id===id);if(!v){showToast("没有找到这个视频");return;}if(!v.blob){showToast("视频文件不可用，请重新上传");return;}if(state.objectUrl)URL.revokeObjectURL(state.objectUrl);state.objectUrl=URL.createObjectURL(v.blob);state.activeVideo=v;state.modal="play";renderModal();}
+function readVideoDuration(file){return new Promise(resolve=>{try{const url=URL.createObjectURL(file),el=document.createElement("video");let done=false;const finish=n=>{if(done)return;done=true;URL.revokeObjectURL(url);resolve(Number.isFinite(n)?n:0);};el.preload="metadata";el.onloadedmetadata=()=>finish(el.duration);el.onerror=()=>finish(0);el.src=url;setTimeout(()=>finish(0),10000);}catch(e){resolve(0);}});}
+async function addVideo(form){
+ const file=form.videoFile.files[0];if(!file){showToast("请先选择视频文件");return;}
+ if(file.size>1024*1024*1024){showToast("单个视频暂不建议超过 1 GB");return;}
+ const title=form.videoTitle.value.trim()||file.name.replace(/\.[^.]+$/,"");
+ const courseKey=form.videoLevel.value,level=COURSE_OPTIONS.find(c=>c.key===courseKey)?.title||courseKey,notes=form.videoNotes.value.trim();
+ let duration=Number(form.videoDuration.value)||0;if(!duration)duration=Math.round((await readVideoDuration(file))/60);
+ const record={id:makeId(),title,level,courseKey,notes,durationMin:duration,filename:file.name,mimeType:file.type||"video/mp4",size:file.size,blob:file,createdAt:Date.now()};
+ try{await put("videos",record);await loadData();closeModal();state.page="library";render();showToast("视频已保存到本机视频库");}
+ catch(err){console.error(err);showToast(err?.name==="QuotaExceededError"?"设备存储空间不足，请删除部分视频后重试":"保存失败，请检查浏览器存储权限");}
+}
+async function completeWorkout(id){
+ const v=state.videos.find(x=>x.id===id);if(!v)return;
+ // Re-read persistent state just before writing, to reduce stale-tab double-counting.
+ await loadData();const p=programProgress();
+ if(p.finished){showToast("75天课程已完成");return;}
+ if(p.wait){showToast("今天已完成，请明天开始下一天");return;}
+ if(videoCourseKey(v)!==p.current.key){showToast("请使用当前阶段的视频完成打卡");return;}
+ if(p.sessions>=p.current.sessions){showToast("今日训练次数已达标");return;}
+ const rec={id:makeId(),videoId:v.id,title:v.title,level:v.level,date:dateKey(new Date()),minutes:Number(v.durationMin)||0,completedAt:Date.now(),programVersion:1,programDay:p.day+1,programSession:p.sessions+1,courseKey:p.current.key};
+ try{await put("workouts",rec);await loadData();closeModal();state.page="today";render();const next=programProgress();showToast(next.finished?"恭喜！75天课程全部完成 ✓":next.wait?"今天的训练已完成，明天继续 ✓":`打卡成功，已完成 ${next.sessions}/${next.current.sessions} 次 ✓`);}
+ catch(err){console.error(err);showToast("记录保存失败，请稍后重试");}
+}
+function blobToDataURL(blob){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>reject(r.error);r.readAsDataURL(blob);});}
+function dataURLToBlob(data){const [head,body]=data.split(",");const mime=(head.match(/data:(.*?);base64/)||[])[1]||"application/octet-stream";const raw=atob(body),arr=new Uint8Array(raw.length);for(let i=0;i<raw.length;i++)arr[i]=raw.charCodeAt(i);return new Blob([arr],{type:mime});}
+async function exportBackup(){
+ try{
+  showToast("正在准备备份，请稍候…");
+  const videos=[];for(const v of state.videos){videos.push({id:v.id,title:v.title,level:v.level,notes:v.notes,durationMin:v.durationMin,filename:v.filename,mimeType:v.mimeType,size:v.size,createdAt:v.createdAt,data:await blobToDataURL(v.blob)});}
+  const payload={app:"qinglian-kegel",version:2,exportedAt:new Date().toISOString(),settings:state.settings,videos,workouts:state.workouts};
+  const blob=new Blob([JSON.stringify(payload)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=`qinglian-backup-${dateKey(new Date())}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);showToast("备份文件已生成");
+ }catch(err){console.error(err);showToast("备份失败，可能是视频文件过大或存储不足");}
+}
+async function importBackup(file){
+ if(!file)return;try{
+  const payload=JSON.parse(await file.text());if(payload.app!=="qinglian-kegel"||!Array.isArray(payload.videos)||!Array.isArray(payload.workouts))throw new Error("备份文件格式不正确");
+  if(!confirm(`将从备份恢复 ${payload.videos.length} 个视频和 ${payload.workouts.length} 条训练记录。当前数据会被备份内容替换，是否继续？`))return;
+  await clearStore("videos");await clearStore("workouts");
+  for(const v of payload.videos){const {data,...meta}=v;await put("videos",{...meta,blob:dataURLToBlob(data)});}
+  for(const w of payload.workouts)await put("workouts",w);
+  if(payload.settings)await put("settings",{key:"settings",value:payload.settings});
+  await loadData();render();showToast("备份恢复完成");
+ }catch(err){console.error(err);showToast(err.message||"恢复失败，请检查备份文件");}
+}
+async function resetAll(){if(!confirm("确定清空本机的全部视频、打卡记录和设置吗？此操作无法撤销。建议先导出备份。"))return;await clearStore("videos");await clearStore("workouts");await clearStore("settings");state.settings={weeklyGoal:4};await loadData();render();showToast("本机数据已清空");}
+document.addEventListener("click",async e=>{
+ const b=e.target.closest("[data-action]");if(!b)return;const a=b.dataset.action;
+ if(a==="backdrop"&&e.target!==b)return;
+ if(a==="nav"){state.page=b.dataset.page;render();}
+ else if(a==="add")openAdd();
+ else if(a==="close-modal")closeModal();
+ else if(a==="backdrop")closeModal();
+ else if(a==="play")await startVideo(b.dataset.id);
+ else if(a==="complete")await completeWorkout(b.dataset.id);
+ else if(a==="delete-video"){const v=state.videos.find(x=>x.id===b.dataset.id);if(v&&confirm(`从视频库删除「${v.title}」？已有打卡记录会保留。`)){await del("videos",v.id);await loadData();render();showToast("视频已删除，历史打卡保留");}}
+ else if(a==="month-prev"){state.month=new Date(state.month.getFullYear(),state.month.getMonth()-1,1);state.selectedDate=dateKey(state.month);render();}
+ else if(a==="month-next"){state.month=new Date(state.month.getFullYear(),state.month.getMonth()+1,1);state.selectedDate=dateKey(state.month);render();}
+ else if(a==="select-date"){state.selectedDate=b.dataset.date;render();}
+ else if(a==="export")await exportBackup();
+ else if(a==="import"){const input=document.createElement("input");input.type="file";input.accept=".json,application/json";input.onchange=()=>importBackup(input.files[0]);input.click();}
+ else if(a==="reset")await resetAll();
+});
+document.addEventListener("change",async e=>{
+ if(e.target.id==="weeklyGoal"){state.settings.weeklyGoal=Number(e.target.value)||4;await put("settings",{key:"settings",value:state.settings});render();showToast("每周目标已更新");}
+ if(e.target.id==="videoFile"){const file=e.target.files[0];if(file){const title=$("#videoTitle");if(title&&!title.value)title.value=file.name.replace(/\.[^.]+$/,"");const duration=$("#videoDuration");if(duration&&!duration.value){const seconds=await readVideoDuration(file);if(seconds)duration.value=Math.max(1,Math.round(seconds/60));}}}
+});
+document.addEventListener("submit",async e=>{if(e.target.id==="addForm"){e.preventDefault();await addVideo(e.target);}});
+async function init(){
+ try{db=await openDB();await loadData();render();if("serviceWorker"in navigator&&/^https?:$/.test(location.protocol)){navigator.serviceWorker.register("./service-worker.js").catch(err=>console.warn("Service worker registration failed",err));}}
+ catch(err){console.error(err);$("#app").innerHTML=`<div class="empty"><h3>暂时无法启动</h3><p>当前浏览器可能不支持本地数据库，或限制了本地文件访问。请使用最新版 Chrome、Safari 或 Edge 打开。</p></div>`;}
+}
+init();
+</script>
+</body>
+</html>
